@@ -3,6 +3,7 @@ package com.ecom.api.controller.auth;
 import com.ecom.api.model.RegistrationBody;
 import com.ecom.exception.UserAlreadyExistsException;
 import com.ecom.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity registerUser(@RequestBody RegistrationBody registrationBody){
+    public ResponseEntity registerUser(@Valid @RequestBody RegistrationBody registrationBody){
 //        return "ok---> Tested";
         try {
             service.registerUser(registrationBody);
