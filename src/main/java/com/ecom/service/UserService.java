@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository repository;
+    private final EncryptionService encryptionService;
 
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, EncryptionService encryptionService) {
         this.repository = repository;
+        this.encryptionService = encryptionService;
     }
 
     public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException{
@@ -28,7 +30,7 @@ public class UserService {
         localUser.setEmail(registrationBody.getEmail());
 
         // TODO- ENCRYPT PASSWORD USING BCRYPT-ALGORITHM
-        localUser.setPassword(registrationBody.getPassword());
+        localUser.setPassword(encryptionService.encryptPassword((registrationBody.getPassword())));
         localUser.setFirstName(registrationBody.getFirstName());
         localUser.setLastName(registrationBody.getLastName());
 
