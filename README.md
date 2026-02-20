@@ -11,16 +11,16 @@ The website will have **USERS** who can buy an array of **PRODUCTS** in differen
 
 The tech bit!
 
-| Technology        | Use           |
-|-------------------|---------------|
-|  Angular/React    | Frontend      |    
-|  Spring Boot      | Backend server |
-|  MySQL            | Database      |
+| Technology    | Use            |
+|---------------|----------------|
+| Angular/React | Frontend       |    
+| Spring Boot   | Backend server |
+| MySQL         | Database       |
 
 
 ## Day wise Task - 
 
-### DAY - 1 | Task - Setting up project [ecom-store]
+### DAY - 1 | Task - Setting up project [ecommerce-store]
 - Objectives:
   1. Creating new project from start.spring.io [Spring initializer]
   2. Adding required dependency.
@@ -50,10 +50,16 @@ The tech bit!
 - Objectives
   1. Add spring boot security to `ecom-store` application.
   2. Temporarily put an endpoint security bypass in.
-  3. Provide an endpoint for users to Login and receive a JWT.
+  3. Provide an endpoint for users to Log in and receive a JWT.
   4. Test our login endpoint.
 
 ### DAY - 6 | Task - Request Authentication
 - Objectives
   1. Authenticate requests using the JWT token from the login process.
   2. Test that the user is being authenticated.
+
+### DAY - 7 | Task - Basic Starter Endpoints
+- Objectives:
+  1. Load some sample data into our database.
+  2. Create some basic endpoints to get that data. 
+  3. Test to ensure the correct data is presented.
