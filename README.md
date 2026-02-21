@@ -69,3 +69,12 @@ The tech bit!
   1. Make all endpoints secured by authentication by default.
   2. Put exclusions to requiring authentication on specific endpoints.
   3. Test that our authentication on the endpoints work.
+
+### DAY - 9 | Task - Email Security
+- Objectives:
+   1. Decide the email verification workflow.
+   2. Download a tool to facilitate SMTP communication testing.
+   3. Send an email at user registration with the verification link.
+   4. Add endpoint to verify the user.
+   5. Block logging in if the user is not verified.
+

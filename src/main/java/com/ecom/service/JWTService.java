@@ -21,6 +21,7 @@ public class JWTService {
     @Value("${jwt.expiryInSeconds}")
     private int expiryInSeconds;
     private static final String USERNAME_KEY="USERNAME";
+    private static final String EMAIL_KEY="EMAIL";
 
     private Algorithm algorithm;
 
@@ -32,6 +33,14 @@ public class JWTService {
     public String generateJWT(LocalUser user){
         return JWT.create()
                 .withClaim(USERNAME_KEY,user.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + (1000L * expiryInSeconds)))
+                .withIssuer(issuer)
+                .sign(algorithm);
+    }
+
+    public String generateVerificationJWT(LocalUser user){
+        return JWT.create()
+                .withClaim(EMAIL_KEY,user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (1000L * expiryInSeconds)))
                 .withIssuer(issuer)
                 .sign(algorithm);
