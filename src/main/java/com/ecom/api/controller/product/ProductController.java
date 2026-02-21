@@ -2,6 +2,7 @@ package com.ecom.api.controller.product;
 
 import com.ecom.model.Product;
 import com.ecom.service.ProductService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @GetMapping
     public List<Product> getProducts(){
         return productService.getProducts();
     }

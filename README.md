@@ -63,3 +63,9 @@ The tech bit!
   1. Load some sample data into our database.
   2. Create some basic endpoints to get that data. 
   3. Test to ensure the correct data is presented.
+
+### DAY - 8 | Task - Endpoint Security
+- Objectives:
+  1. Make all endpoints secured by authentication by default.
+  2. Put exclusions to requiring authentication on specific endpoints.
+  3. Test that our authentication on the endpoints work.

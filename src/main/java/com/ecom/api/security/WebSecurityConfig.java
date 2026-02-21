@@ -5,15 +5,29 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import org.springframework.security.web.authentication.AuthenticationFilter;
 
 @Configuration
 public class WebSecurityConfig {
 
+    private final JWTRequestFilter requestFilter;
+
+    public WebSecurityConfig(JWTRequestFilter requestFilter) {
+        this.requestFilter = requestFilter;
+    }
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        // TODO - Proper authentication
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
-                .authorizeHttpRequests(auth-> auth.anyRequest().permitAll());
+                .addFilterBefore(requestFilter, AuthorizationFilter.class)
+                .authorizeHttpRequests(auth->
+                        auth.requestMatchers("/test","/product", "/auth/register", "/auth/login").permitAll()
+                                    .anyRequest()
+                                    .authenticated());
         return http.build();
     }
 }
