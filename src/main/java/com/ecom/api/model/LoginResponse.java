@@ -7,4 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginResponse {
     private String jwt;
+    private boolean success;
+    private String failureReason;
 }
