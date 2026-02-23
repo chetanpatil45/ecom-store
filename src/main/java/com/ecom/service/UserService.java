@@ -8,8 +8,6 @@ import com.ecom.model.LocalUser;
 import com.ecom.model.VerificationToken;
 import com.ecom.repository.UserRepository;
 import com.ecom.repository.VerificationTokenRepository;
-import org.slf4j.spi.LocationAwareLogger;
-import org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
