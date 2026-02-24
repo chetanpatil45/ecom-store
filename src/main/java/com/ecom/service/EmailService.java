@@ -38,6 +38,8 @@ public class EmailService {
                 url + "/auth/verify?token="+verificationToken.getToken());
 
         try {
+            System.out.println("FROM: " + fromAddress);
+            System.out.println("URL: " + url);
             mailSender.send(simpleMailMessage);
         } catch (MailException e) {
             throw new EmailFailureException();

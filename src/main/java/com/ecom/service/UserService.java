@@ -49,11 +49,14 @@ public class UserService {
         localUser.setFirstName(registrationBody.getFirstName());
         localUser.setLastName(registrationBody.getLastName());
 
-        VerificationToken verificationToken = createVerificationToken(localUser);
-        emailService.sendEmail(verificationToken);
-        verificationTokenRepository.save(verificationToken);
 
-        return repository.save(localUser);
+        LocalUser savedUser = repository.save(localUser);
+
+        VerificationToken token = createVerificationToken(savedUser);
+        verificationTokenRepository.save(token);
+        emailService.sendEmail(token);
+
+        return savedUser;
     }
 
     public String loginUser(LoginBody loginBody) throws UserNotVerifiedException, EmailFailureException {
