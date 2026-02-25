@@ -3,7 +3,6 @@ package com.ecom.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.sql.Timestamp;
 
@@ -17,7 +16,6 @@ public class VerificationToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
     @Column(name = "token", unique = true, nullable = false)
     private String token;
 

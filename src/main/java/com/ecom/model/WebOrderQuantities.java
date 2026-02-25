@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.tomcat.util.buf.UEncoder;
-import org.springframework.boot.micrometer.metrics.autoconfigure.MetricsProperties;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Entity
 @Data
