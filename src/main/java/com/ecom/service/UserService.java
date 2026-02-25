@@ -96,18 +96,25 @@ public class UserService {
     }
 
     @Transactional
-    public boolean verifyUser(String token){
+    public boolean verifyUser(String token) {
         Optional<VerificationToken> opToken = verificationTokenRepository.findByToken(token);
-        if (opToken.isPresent()){
-            VerificationToken verificationToken = opToken.get();
-            LocalUser user = verificationToken.getUser();
-            if (!user.getEmailVerified()){
-                user.setEmailVerified(true);
-                repository.save(user);
-                verificationTokenRepository.deleteByUser(user);
-                return true;
-            }
+
+        if (opToken.isEmpty()) {
+            return false;
         }
-        return false;
+
+        VerificationToken verificationToken = opToken.get();
+        LocalUser user = verificationToken.getUser();
+
+        if (Boolean.TRUE.equals(user.getEmailVerified())) {
+            return false;
+        }
+
+        user.setEmailVerified(true);
+        repository.save(user);
+        verificationTokenRepository.deleteByUser(user);
+
+        return true;
     }
+
 }

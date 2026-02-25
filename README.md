@@ -78,3 +78,20 @@ The tech bit!
    4. Add endpoint to verify the user.
    5. Block logging in if the user is not verified.
 
+### DAY - 10 | Unit Testing - I
+- Objectives
+  1. Build Unit test to test out code for us.
+  2. Test cases for - UserService & RegisterUser(). 
+  3. Aim for as high code coverage result while being realistic.
+
+### DAY - 11 | Unit Testing - II
+- Objectives 
+  1. Build Unit test to test out code for us.
+  2. Test cases for -  LoginUser(), JWTService, Encryption Service classes.
+  3. Aim for as high code coverage result while being realistic.
+
+### DAY - 12 | Unit Testing - III
+- Objectives 
+  1. Build Unit test to test out code for us.
+  2. Test cases for - UserService & LoginUser().
+  3. Aim for as high code coverage result while being realistic.
