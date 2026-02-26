@@ -115,5 +115,7 @@ The tech bit!
   1. Allow users to request a password reset
   2. All users to reset password with the emailed link.
   3. Test
- 
- 
+
+### DAY - 16 | Update Address 
+1. Allow users to get/add/update their address
+2. Test the new functionality - JUNIT.
