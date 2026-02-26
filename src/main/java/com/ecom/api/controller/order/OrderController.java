@@ -15,8 +15,8 @@ import java.util.List;
 public class OrderController {
     private final WebOrderService orderService;
 
-    public OrderController(WebOrderService orderServicel) {
-        this.orderService = orderServicel;
+    public OrderController(WebOrderService orderService) {
+        this.orderService = orderService;
     }
 
     @GetMapping

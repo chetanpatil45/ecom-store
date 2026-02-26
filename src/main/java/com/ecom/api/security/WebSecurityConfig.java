@@ -1,12 +1,10 @@
 package com.ecom.api.security;
 
-import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
-import org.springframework.security.web.authentication.AuthenticationFilter;
 
 @Configuration
 public class WebSecurityConfig {
@@ -24,8 +22,11 @@ public class WebSecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
                 .addFilterBefore(requestFilter, AuthorizationFilter.class)
+                // We need to make sure our authentication filter is run before the http request filter is run.
                 .authorizeHttpRequests(auth->
+                        // Specific exclusions or rules.
                         auth.requestMatchers("/test","/product", "/auth/register", "/auth/login", "/auth/verify", "/error").permitAll()
+                                // Everything else should be authenticated.
                                     .anyRequest()
                                     .authenticated());
         return http.build();

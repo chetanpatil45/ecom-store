@@ -59,7 +59,7 @@ public class UserServiceTest {
                 "Username should already in use.");
 
         body.setUsername("UserServiceTest$testRegisterUser");
-        body.setEmail("userA@junit.com");
+        body.setEmail("UserA@junit.com");
 
         Assertions.assertThrows(UserAlreadyExistsException.class,
                 ()-> userService.registerUser(body),

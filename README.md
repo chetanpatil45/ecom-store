@@ -93,5 +93,11 @@ The tech bit!
 ### DAY - 12 | Unit Testing - III
 - Objectives 
   1. Build Unit test to test out code for us.
-  2. Test cases for - UserService & LoginUser().
+  2. Test cases for - Controllers - **Product & Authentication**, `/products` , `/auth/register`.
+  3. Aim for as high code coverage result while being realistic.
+
+### DAY - 13 | Unit Testing - IV
+- Objectives
+  1. Build Unit test to test out code for us.
+  2. Test cases for - JWTRequestFilter, OrderControllerTest, @WithUserDetails, testing Order endpoints.
   3. Aim for as high code coverage result while being realistic.
