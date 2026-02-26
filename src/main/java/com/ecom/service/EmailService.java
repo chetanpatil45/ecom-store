@@ -1,6 +1,7 @@
 package com.ecom.service;
 
 import com.ecom.exception.EmailFailureException;
+import com.ecom.model.LocalUser;
 import com.ecom.model.VerificationToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -45,5 +46,22 @@ public class EmailService {
             throw new EmailFailureException();
         }
 
+    }
+
+    public void sendPasswordResetMail(LocalUser user, String token) throws EmailFailureException{
+        SimpleMailMessage simpleMailMessage = makeMailMessage();
+        simpleMailMessage.setTo(user.getEmail());
+        simpleMailMessage.setSubject("Your Password Reset Link");
+        simpleMailMessage.setText("You requested a password reset on our website please find the link below" +
+                "to be able to reset your password :\n "+
+                url + "/auth/reset?token="+token);
+
+        try {
+            System.out.println("FROM: " + fromAddress);
+            System.out.println("URL: " + url);
+            mailSender.send(simpleMailMessage);
+        } catch (MailException e) {
+            throw new EmailFailureException();
+        }
     }
 }

@@ -43,7 +43,7 @@ public class JWTServiceTest {
     }
 
     @Test
-    public void testJWTNOtGeneratedByUs(){
+    public void testLoginJWTNOtGeneratedByUs(){
         String token = JWT.create().withClaim("USERNAME","UserA")
                 .sign(Algorithm.HMAC256("NotTheRealSecrete"));
 
@@ -51,10 +51,37 @@ public class JWTServiceTest {
     }
 
     @Test
-    public void testJWTCorrectlySignedNoIssuer(){
+    public void testLoginJWTCorrectlySignedNoIssuer(){
         String token = JWT.create().withClaim("USERNAME","UserA")
                 .sign(Algorithm.HMAC256(algorithmKey));
 
         Assertions.assertThrows(MissingClaimException.class, ()-> service.getUsername(token));
+    }
+
+    @Test
+    public void testPasswordResetToken(){
+        LocalUser user = userRepository.findByUsernameIgnoreCase("UserA").get();
+        String token = service.generatePasswordResetJWT(user);
+
+        Assertions.assertEquals(user.getEmail(),service.getResetPasswordEmail(token),
+                "Email should match inside JWT. ");
+    }
+
+    @Test
+    public void testResetPasswordJWTNOtGeneratedByUs(){
+        String token = JWT.create().withClaim("RESET_PASSWORD_EMAIL","UserA@junit.com")
+                .sign(Algorithm.HMAC256("NotTheRealSecrete"));
+
+        Assertions.assertThrows(SignatureVerificationException.class,
+                ()-> service.getResetPasswordEmail(token));
+    }
+
+    @Test
+    public void testResetPasswordJWTCorrectlySignedNoIssuer(){
+        String token = JWT.create().withClaim("RESET_PASSWORD_EMAIL","UserA@junit.com")
+                .sign(Algorithm.HMAC256(algorithmKey));
+
+        Assertions.assertThrows(MissingClaimException.class,
+                ()-> service.getResetPasswordEmail(token));
     }
 }

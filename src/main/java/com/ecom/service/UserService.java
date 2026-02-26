@@ -1,8 +1,10 @@
 package com.ecom.service;
 
 import com.ecom.api.model.LoginBody;
+import com.ecom.api.model.PasswordResetBody;
 import com.ecom.api.model.RegistrationBody;
 import com.ecom.exception.EmailFailureException;
+import com.ecom.exception.EmailNotFoundException;
 import com.ecom.exception.UserAlreadyExistsException;
 import com.ecom.exception.UserNotVerifiedException;
 import com.ecom.model.LocalUser;
@@ -115,6 +117,29 @@ public class UserService {
         verificationTokenRepository.deleteByUser(user);
 
         return true;
+    }
+
+    public void forgotPassword(String email) throws EmailNotFoundException, EmailFailureException {
+        Optional<LocalUser> opUser = repository.findByEmail(email);
+
+        if (opUser.isPresent()){
+            LocalUser user = opUser.get();
+            String token = jwtService.generatePasswordResetJWT(user);
+            emailService.sendPasswordResetMail(user,token);
+        }else {
+            throw new EmailNotFoundException();
+        }
+    }
+
+    public void resetPassword(PasswordResetBody body){
+        String email = jwtService.getResetPasswordEmail(body.getToken());
+        Optional<LocalUser> opUser = repository.findByEmail(email);
+
+        if (opUser.isPresent()){
+            LocalUser user = opUser.get();
+            user.setPassword(encryptionService.encryptPassword(body.getPassword()));
+            repository.save(user);
+        }
     }
 
 }

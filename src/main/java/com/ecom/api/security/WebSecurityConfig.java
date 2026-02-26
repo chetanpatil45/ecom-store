@@ -25,7 +25,7 @@ public class WebSecurityConfig {
                 // We need to make sure our authentication filter is run before the http request filter is run.
                 .authorizeHttpRequests(auth->
                         // Specific exclusions or rules.
-                        auth.requestMatchers("/test","/product", "/auth/register", "/auth/login", "/auth/verify", "/error").permitAll()
+                        auth.requestMatchers("/test","/product", "/auth/register", "/auth/login", "/auth/verify", "/auth/forgot","/auth/reset", "/error").permitAll()
                                 // Everything else should be authenticated.
                                     .anyRequest()
                                     .authenticated());

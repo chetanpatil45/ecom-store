@@ -1,8 +1,10 @@
 package com.ecom.service;
 
 import com.ecom.api.model.LoginBody;
+import com.ecom.api.model.PasswordResetBody;
 import com.ecom.api.model.RegistrationBody;
 import com.ecom.exception.EmailFailureException;
+import com.ecom.exception.EmailNotFoundException;
 import com.ecom.exception.UserAlreadyExistsException;
 import com.ecom.exception.UserNotVerifiedException;
 import com.ecom.model.LocalUser;
@@ -43,6 +45,12 @@ public class UserServiceTest {
 
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
+
+    @Autowired
+    private EncryptionService encryptionService;
+
+    @Autowired
+    private JWTService jwtService;
 
     @Test
     @Transactional
@@ -129,5 +137,39 @@ public class UserServiceTest {
             Assertions.assertTrue(userService.verifyUser(token), "Token should be valid");
             Assertions.assertNotNull(loginBody,"The user should now be verified");
         }
+    }
+
+    @Test
+    @Transactional
+    public void testForgotPassword() throws MessagingException {
+        Assertions.assertThrows(EmailNotFoundException.class,
+                () -> userService.forgotPassword("UserNotExist@junit.com"),
+                "Non-existing email should be rejected.");
+
+        Assertions.assertDoesNotThrow(
+                ()-> userService.forgotPassword("UserA@junit.com"));
+
+        Assertions.assertEquals("UserA@junit.com", greenMailExtension.getReceivedMessages()[0]
+                .getRecipients(Message.RecipientType.TO)[0].toString(),
+                "Password reset email should be sent.");
+    }
+
+    @Test
+    @Transactional
+    public void testResetPassword(){
+        LocalUser user = userRepository.findByUsernameIgnoreCase("UserA").get();
+        String token = jwtService.generatePasswordResetJWT(user);
+
+        PasswordResetBody body = new PasswordResetBody();
+        body.setToken(token);
+        body.setPassword("Password123456");
+        userService.resetPassword(body);
+
+        user = userRepository.findByUsernameIgnoreCase("UserA").get();
+
+        Assertions.assertTrue(
+                encryptionService.verifyPassword("Password123456", user.getPassword()),
+                "Password change should be written to DB.");
+
     }
 }
