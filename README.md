@@ -118,4 +118,7 @@ The tech bit!
 
 ### DAY - 16 | Update Address 
 1. Allow users to get/add/update their address
-2. Test the new functionality - JUNIT.
+2. Test the new functionality - JUnit.
+
+### DAY - 18 | Web Sockets
+
