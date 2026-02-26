@@ -4,10 +4,7 @@ import com.ecom.api.model.LoginBody;
 import com.ecom.api.model.LoginResponse;
 import com.ecom.api.model.PasswordResetBody;
 import com.ecom.api.model.RegistrationBody;
-import com.ecom.exception.EmailFailureException;
-import com.ecom.exception.EmailNotFoundException;
-import com.ecom.exception.UserAlreadyExistsException;
-import com.ecom.exception.UserNotVerifiedException;
+import com.ecom.exception.*;
 import com.ecom.model.LocalUser;
 import com.ecom.service.UserService;
 import jakarta.validation.Valid;
@@ -96,8 +93,12 @@ public class AuthenticationController {
 
     @PostMapping("/reset")
     public ResponseEntity resetPassword(@Valid @RequestBody PasswordResetBody body){
-        service.resetPassword(body);
-        return ResponseEntity.ok().build();
+        try {
+            service.resetPassword(body);
+            return ResponseEntity.ok().build();
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
 }
