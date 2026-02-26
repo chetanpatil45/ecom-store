@@ -104,10 +104,16 @@ The tech bit!
 
 ### DAY - 14 | Fixing Major Security bug.
   1. Security bug found!</br>
-  During your development, the client sent a sample of the project
-  so far to a vulnerability scanning company. A major security bug
-  was found that allowed anyone to generate fake JWTs and still
-  verify the login.
+  During your development, the client sent a sample of the project so far to a vulnerability scanning company. A major security bug
+  was found that allowed anyone to generate fake JWTs and still verify the login.
 2. Anyone can build JWT token from website and pasting to authentication so it will consider as Verified. 
 3. To prevent this we are - We are decoding that JWT token checking the **Signature** and if it matches then continue if not the throw error.
-4. Signature is built with Encryption Algorithm & Secure key (SuperSecureSecreteKey). 
+4. Signature is built with Encryption Algorithm & Secure key (SuperSecureSecreteKey).
+
+### DAY -  15 | Password Resetting
+- Objectives
+  1. Allow users to request a password reset
+  2. All users to reset password with the emailed link.
+  3. Test
+ 
+ 
