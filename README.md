@@ -101,3 +101,13 @@ The tech bit!
   1. Build Unit test to test out code for us.
   2. Test cases for - JWTRequestFilter, OrderControllerTest, @WithUserDetails, testing Order endpoints.
   3. Aim for as high code coverage result while being realistic.
+
+### DAY - 14 | Fixing Major Security bug.
+  1. Security bug found!</br>
+  During your development, the client sent a sample of the project
+  so far to a vulnerability scanning company. A major security bug
+  was found that allowed anyone to generate fake JWTs and still
+  verify the login.
+2. Anyone can build JWT token from website and pasting to authentication so it will consider as Verified. 
+3. To prevent this we are - We are decoding that JWT token checking the **Signature** and if it matches then continue if not the throw error.
+4. Signature is built with Encryption Algorithm & Secure key (SuperSecureSecreteKey). 

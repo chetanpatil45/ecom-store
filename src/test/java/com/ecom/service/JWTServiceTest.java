@@ -1,14 +1,17 @@
 package com.ecom.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.MissingClaimException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.ecom.model.LocalUser;
 import com.ecom.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDate;
 
 @SpringBootTest
 public class JWTServiceTest {
@@ -18,6 +21,9 @@ public class JWTServiceTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Value("${jwt.algorithm.key}")
+    private String algorithmKey;
 
     @Test
     @Transactional
@@ -34,6 +40,21 @@ public class JWTServiceTest {
         String token = service.generateJWT(user);
 
         Assertions.assertEquals(user.getUsername(), service.getUsername(token), "Token for auth should contain user's username");
+    }
 
+    @Test
+    public void testJWTNOtGeneratedByUs(){
+        String token = JWT.create().withClaim("USERNAME","UserA")
+                .sign(Algorithm.HMAC256("NotTheRealSecrete"));
+
+        Assertions.assertThrows(SignatureVerificationException.class, ()-> service.getUsername(token));
+    }
+
+    @Test
+    public void testJWTCorrectlySignedNoIssuer(){
+        String token = JWT.create().withClaim("USERNAME","UserA")
+                .sign(Algorithm.HMAC256(algorithmKey));
+
+        Assertions.assertThrows(MissingClaimException.class, ()-> service.getUsername(token));
     }
 }
