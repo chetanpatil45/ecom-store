@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -46,6 +47,31 @@ public class UserController {
         address.setUser(refUser);
 
         return ResponseEntity.ok(addressRepository.save(address));
+
+    }
+
+    @PatchMapping("/{userId}/address/{addressId}")
+    public ResponseEntity patchAddress(
+            @AuthenticationPrincipal LocalUser user,
+            @PathVariable long userId,
+            @RequestBody Address address,
+            @PathVariable long addressId){
+
+        if (!userHasPermission(user, userId))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        if (address.getId() == addressId){
+            Optional<Address> ogAddress = addressRepository.findById(addressId);
+            if (ogAddress.isPresent()){
+                LocalUser originalUser = ogAddress.get().getUser();
+                if (originalUser.getId() == userId){
+                    address.setUser(originalUser);
+                    return ResponseEntity.ok(addressRepository.save(address));
+                }
+            }
+        }
+
+        return ResponseEntity.badRequest().build();
 
     }
 
