@@ -120,5 +120,15 @@ The tech bit!
 1. Allow users to get/add/update their address
 2. Test the new functionality - JUnit.
 
-### DAY - 18 | Web Sockets
+### DAY - 17 | Web Sockets
+  **STOMP & MQ -**
+  - STOMP(Simple Text Oriented Messaging Protocols) is a protocol which lays a set of rules for communicating over messaging service.
+  - The way which it can be looked at in spring boot is MQ over web sockets.
+  - Since SpringBoot allow us to provide the STOMP over websockets implementation.
+  
+  **MQ**
+  - Messaging Queue is the concept of having centralized queuing system for data to ensure first out approach.
+  - It implements a provider - consumer pattern.
+  - MQ also have topics which are where multiple listeners can read message being broadcast over the topic instead just one consumer.
 
+### DAY - 18 | Web sockets
