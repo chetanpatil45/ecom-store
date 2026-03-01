@@ -120,7 +120,7 @@ The tech bit!
 1. Allow users to get/add/update their address
 2. Test the new functionality - JUnit.
 
-### DAY - 17 | Web Sockets
+### DAY - 17 | Web Sockets - II
   **STOMP & MQ -**
   - STOMP(Simple Text Oriented Messaging Protocols) is a protocol which lays a set of rules for communicating over messaging service.
   - The way which it can be looked at in spring boot is MQ over web sockets.
@@ -131,4 +131,12 @@ The tech bit!
   - It implements a provider - consumer pattern.
   - MQ also have topics which are where multiple listeners can read message being broadcast over the topic instead just one consumer.
 
-### DAY - 18 | Web sockets
+### DAY - 18 | Web sockets - II
+  - Created Configuration class for enable Websocket & STOMP messaging.
+  - Exposes a WebSocket endpoint at `/websocket`
+  - Enables an in-memory message broker `(/topic)`
+  - Adds security rules for WebSocket messages 
+  - Requires authentication only for `/topic/user/**`
+  - Permits all other WebSocket messages.
+
+### Day - 19 | Websockets - III
