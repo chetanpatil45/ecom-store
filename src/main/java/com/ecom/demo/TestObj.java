@@ -1,4 +1,4 @@
-package com.ecom;
+package com.ecom.demo;
 
 import jakarta.persistence.*;
 

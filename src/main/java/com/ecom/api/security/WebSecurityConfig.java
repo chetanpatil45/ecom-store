@@ -20,12 +20,15 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         // TODO - Proper authentication
         http.csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.disable())
+                .cors(cors -> {})
                 .addFilterBefore(requestFilter, AuthorizationFilter.class)
                 // We need to make sure our authentication filter is run before the http request filter is run.
                 .authorizeHttpRequests(auth->
                         // Specific exclusions or rules.
-                        auth.requestMatchers("/test","/product", "/auth/register", "/auth/login", "/auth/verify", "/auth/forgot","/auth/reset", "/error").permitAll()
+                        auth.requestMatchers("/test","/product", "/auth/register",
+                                        "/auth/login", "/auth/verify", "/auth/forgot",
+                                        "/websocket","/websocket/**",
+                                        "/auth/reset", "/error").permitAll()
                                 // Everything else should be authenticated.
                                     .anyRequest()
                                     .authenticated());

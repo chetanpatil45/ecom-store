@@ -44,6 +44,13 @@ public class JWTRequestFilter extends OncePerRequestFilter implements ChannelInt
             token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         }
 
+        String path = request.getRequestURI();
+
+        if (path.startsWith("/websocket")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         filterChain.doFilter(request, response);
     }
 
@@ -74,11 +81,11 @@ public class JWTRequestFilter extends OncePerRequestFilter implements ChannelInt
     // TODO: Limit this to only CONNECT messages.
     @Override
     public @Nullable Message<?> preSend(Message<?> message, MessageChannel channel) {
-        if (message.getHeaders().get("simpMessageType").equals(SimpMessageType.CONNECT)) {
+        if (message.getHeaders().get("simpMessageType").equals(SimpMessageType.SUBSCRIBE)) {
             Map nativeHeaders = (Map) message.getHeaders().get("nativeHeaders");
-            if (nativeHeaders!=null) {
+            if (nativeHeaders!= null) {
                 List authTokenList = (List) nativeHeaders.get("Authorization");
-                if (authTokenList!=null) {
+                if (authTokenList != null) {
                     String tokenHeader = (String) authTokenList.get(0);
                     checkToken(tokenHeader);
                 }

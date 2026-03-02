@@ -146,4 +146,9 @@ public class UserService {
         return user.getId() == id;
     }
 
+
+//    private boolean userHasPermission(LocalUser user, Long id){
+//        return Objects.equals(user.getId(), id);
+//    }
+
 }

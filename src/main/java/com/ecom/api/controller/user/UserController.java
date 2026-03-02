@@ -1,16 +1,18 @@
 package com.ecom.api.controller.user;
 
+import com.ecom.api.model.DataChange;
 import com.ecom.model.Address;
 import com.ecom.model.LocalUser;
 import com.ecom.repository.AddressRepository;
+import com.ecom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -20,12 +22,18 @@ public class UserController {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/{userId}/address")
     public ResponseEntity<List<Address>> getAddress(
             @AuthenticationPrincipal LocalUser user,
             @PathVariable long userId){
 
-        if (!userHasPermission(user, userId))
+        if (!userService.userHasPermissionToUser(user, userId))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         return ResponseEntity
@@ -38,7 +46,7 @@ public class UserController {
             @PathVariable long userId,
             @RequestBody Address address) {
 
-        if (!userHasPermission(user, userId))
+        if (!userService.userHasPermissionToUser(user, userId))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         address.setId(null);
@@ -46,7 +54,10 @@ public class UserController {
         refUser.setId(userId);
         address.setUser(refUser);
 
-        return ResponseEntity.ok(addressRepository.save(address));
+        Address savedAddress = addressRepository.save(address);
+        simpMessagingTemplate.convertAndSend("/topic/user/" + userId +"/address",
+                new DataChange<>(DataChange.ChangeType.INSERT, address));
+        return ResponseEntity.ok(savedAddress);
 
     }
 
@@ -57,7 +68,7 @@ public class UserController {
             @RequestBody Address address,
             @PathVariable long addressId){
 
-        if (!userHasPermission(user, userId))
+        if (!userService.userHasPermissionToUser(user, userId))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         if (address.getId() == addressId){
@@ -66,16 +77,15 @@ public class UserController {
                 LocalUser originalUser = ogAddress.get().getUser();
                 if (originalUser.getId() == userId){
                     address.setUser(originalUser);
-                    return ResponseEntity.ok(addressRepository.save(address));
+                    Address savedAddress = addressRepository.save(address);
+                    simpMessagingTemplate.convertAndSend("/topic/user/" + userId +"/address",
+                            new DataChange<>(DataChange.ChangeType.UPDATE, address));
+                    return ResponseEntity.ok(savedAddress);
                 }
             }
         }
 
         return ResponseEntity.badRequest().build();
-
     }
 
-    private boolean userHasPermission(LocalUser user, Long id){
-        return Objects.equals(user.getId(), id);
-    }
 }
