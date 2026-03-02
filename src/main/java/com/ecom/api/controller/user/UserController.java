@@ -1,8 +1,8 @@
 package com.ecom.api.controller.user;
 
-import com.ecom.api.model.DataChange;
-import com.ecom.model.Address;
-import com.ecom.model.LocalUser;
+import com.ecom.api.dto.DataChange;
+import com.ecom.entity.Address;
+import com.ecom.entity.User;
 import com.ecom.repository.AddressRepository;
 import com.ecom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class UserController {
 
     @GetMapping("/{userId}/address")
     public ResponseEntity<List<Address>> getAddress(
-            @AuthenticationPrincipal LocalUser user,
+            @AuthenticationPrincipal User user,
             @PathVariable long userId){
 
         if (!userService.userHasPermissionToUser(user, userId))
@@ -42,7 +42,7 @@ public class UserController {
 
     @PutMapping("/{userId}/address")
     public ResponseEntity<Address> putAddress(
-            @AuthenticationPrincipal LocalUser user,
+            @AuthenticationPrincipal User user,
             @PathVariable long userId,
             @RequestBody Address address) {
 
@@ -50,7 +50,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         address.setId(null);
-        LocalUser refUser = new LocalUser();
+        User refUser = new User();
         refUser.setId(userId);
         address.setUser(refUser);
 
@@ -63,7 +63,7 @@ public class UserController {
 
     @PatchMapping("/{userId}/address/{addressId}")
     public ResponseEntity patchAddress(
-            @AuthenticationPrincipal LocalUser user,
+            @AuthenticationPrincipal User user,
             @PathVariable long userId,
             @RequestBody Address address,
             @PathVariable long addressId){
@@ -74,7 +74,7 @@ public class UserController {
         if (address.getId() == addressId){
             Optional<Address> ogAddress = addressRepository.findById(addressId);
             if (ogAddress.isPresent()){
-                LocalUser originalUser = ogAddress.get().getUser();
+                User originalUser = ogAddress.get().getUser();
                 if (originalUser.getId() == userId){
                     address.setUser(originalUser);
                     Address savedAddress = addressRepository.save(address);

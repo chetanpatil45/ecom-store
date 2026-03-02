@@ -1,7 +1,7 @@
 package com.ecom.api.security;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.ecom.model.LocalUser;
+import com.ecom.entity.User;
 import com.ecom.repository.UserRepository;
 import com.ecom.service.JWTService;
 import jakarta.servlet.FilterChain;
@@ -59,9 +59,9 @@ public class JWTRequestFilter extends OncePerRequestFilter implements ChannelInt
             token = token.substring(7);
             try {
                 String username = jwtService.getUsername(token);
-                Optional<LocalUser> opUser = repository.findByUsernameIgnoreCase(username);
+                Optional<User> opUser = repository.findByUsernameIgnoreCase(username);
                 if (opUser.isPresent()) {
-                    LocalUser user = opUser.get();
+                    User user = opUser.get();
                     if (user.getEmailVerified()) {
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
                         SecurityContextHolder.getContext().setAuthentication(authentication);

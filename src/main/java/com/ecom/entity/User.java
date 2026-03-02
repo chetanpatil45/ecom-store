@@ -1,4 +1,4 @@
-package com.ecom.model;
+package com.ecom.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -14,7 +14,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-public class LocalUser implements UserDetails {
+@Table(name = "local_user")
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

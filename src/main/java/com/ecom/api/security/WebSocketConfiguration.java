@@ -1,6 +1,6 @@
 package com.ecom.api.security;
 
-import com.ecom.model.LocalUser;
+import com.ecom.entity.User;
 import com.ecom.service.UserService;
 import org.jspecify.annotations.Nullable;
 import org.springframework.context.ApplicationContext;
@@ -120,7 +120,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
                     Long userId = Long.valueOf(params.get("userId"));
                     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                     if (authentication!=null) {
-                        LocalUser user = (LocalUser) authentication.getPrincipal();
+                        User user = (User) authentication.getPrincipal();
                         if (!userService.userHasPermissionToUser(user, userId)) {
                             message = null;
                         }

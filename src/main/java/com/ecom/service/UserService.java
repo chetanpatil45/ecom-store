@@ -1,11 +1,11 @@
 package com.ecom.service;
 
-import com.ecom.api.model.LoginBody;
-import com.ecom.api.model.PasswordResetBody;
-import com.ecom.api.model.RegistrationBody;
+import com.ecom.api.dto.LoginBody;
+import com.ecom.api.dto.PasswordResetBody;
+import com.ecom.api.dto.RegistrationBody;
 import com.ecom.exception.*;
-import com.ecom.model.LocalUser;
-import com.ecom.model.VerificationToken;
+import com.ecom.entity.User;
+import com.ecom.entity.VerificationToken;
 import com.ecom.repository.UserRepository;
 import com.ecom.repository.VerificationTokenRepository;
 import jakarta.transaction.Transactional;
@@ -32,14 +32,14 @@ public class UserService {
         this.verificationTokenRepository = verificationTokenRepository;
     }
 
-    public LocalUser registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException, EmailFailureException {
+    public User registerUser(RegistrationBody registrationBody) throws UserAlreadyExistsException, EmailFailureException {
 
         if (repository.findByUsernameIgnoreCase(registrationBody.getUsername()).isPresent()
                 || repository.findByEmail(registrationBody.getEmail()).isPresent()){
             throw new UserAlreadyExistsException("User already Exists");
         }
 
-        LocalUser localUser = new LocalUser();
+        User localUser = new User();
         localUser.setUsername(registrationBody.getUsername());
         localUser.setEmail(registrationBody.getEmail());
 
@@ -49,7 +49,7 @@ public class UserService {
         localUser.setLastName(registrationBody.getLastName());
 
 
-        LocalUser savedUser = repository.save(localUser);
+        User savedUser = repository.save(localUser);
 
         VerificationToken token = createVerificationToken(savedUser);
         verificationTokenRepository.save(token);
@@ -59,9 +59,9 @@ public class UserService {
     }
 
     public String loginUser(LoginBody loginBody) throws UserNotVerifiedException, EmailFailureException {
-        Optional<LocalUser> opUser = repository.findByUsernameIgnoreCase(loginBody.getUsername());
+        Optional<User> opUser = repository.findByUsernameIgnoreCase(loginBody.getUsername());
         if (opUser.isPresent()){
-            LocalUser user = opUser.get();
+            User user = opUser.get();
             if (encryptionService.verifyPassword(loginBody.getPassword(),user.getPassword())){
                 if (user.getEmailVerified()){
                     return jwtService.generateJWT(user);
@@ -83,7 +83,7 @@ public class UserService {
         return null;
     }
 
-    private VerificationToken createVerificationToken(LocalUser user){
+    private VerificationToken createVerificationToken(User user){
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(jwtService.generateVerificationJWT(user));
         verificationToken.setUser(user);
@@ -103,7 +103,7 @@ public class UserService {
         }
 
         VerificationToken verificationToken = opToken.get();
-        LocalUser user = verificationToken.getUser();
+        User user = verificationToken.getUser();
 
         if (Boolean.TRUE.equals(user.getEmailVerified())) {
             return false;
@@ -117,10 +117,10 @@ public class UserService {
     }
 
     public void forgotPassword(String email) throws EmailNotFoundException, EmailFailureException {
-        Optional<LocalUser> opUser = repository.findByEmail(email);
+        Optional<User> opUser = repository.findByEmail(email);
 
         if (opUser.isPresent()){
-            LocalUser user = opUser.get();
+            User user = opUser.get();
             String token = jwtService.generatePasswordResetJWT(user);
             emailService.sendPasswordResetMail(user,token);
         }else {
@@ -130,10 +130,10 @@ public class UserService {
 
     public void resetPassword(PasswordResetBody body) throws UserNotFoundException {
         String email = jwtService.getResetPasswordEmail(body.getToken());
-        Optional<LocalUser> opUser = repository.findByEmail(email);
+        Optional<User> opUser = repository.findByEmail(email);
 
         if (opUser.isPresent()){
-            LocalUser user = opUser.get();
+            User user = opUser.get();
             user.setPassword(encryptionService.encryptPassword(body.getPassword()));
             repository.save(user);
         }
@@ -142,7 +142,7 @@ public class UserService {
         }
     }
 
-    public boolean userHasPermissionToUser(LocalUser user, Long id){
+    public boolean userHasPermissionToUser(User user, Long id){
         return user.getId() == id;
     }
 

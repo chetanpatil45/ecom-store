@@ -3,7 +3,7 @@ package com.ecom.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.ecom.model.LocalUser;
+import com.ecom.entity.User;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class JWTService {
         algorithm = Algorithm.HMAC256(algorithmKey);
     }
 
-    public String generateJWT(LocalUser user){
+    public String generateJWT(User user){
         return JWT.create()
                 .withClaim(USERNAME_KEY,user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (1000L * expiryInSeconds)))
@@ -40,7 +40,7 @@ public class JWTService {
                 .sign(algorithm);
     }
 
-    public String generateVerificationJWT(LocalUser user){
+    public String generateVerificationJWT(User user){
         return JWT.create()
                 .withClaim(VERIFICATION_EMAIL_KEY,user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (1000L * expiryInSeconds)))
@@ -48,7 +48,7 @@ public class JWTService {
                 .sign(algorithm);
     }
 
-    public String generatePasswordResetJWT(LocalUser user){
+    public String generatePasswordResetJWT(User user){
         return JWT.create()
                 .withClaim(RESET_PASSWORD_EMAIL_KEY,user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + (1000 * 60 * 30)))

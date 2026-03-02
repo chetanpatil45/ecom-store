@@ -139,4 +139,20 @@ The tech bit!
   - Requires authentication only for `/topic/user/**`
   - Permits all other WebSocket messages.
 
-### Day - 19 | Websockets - III
+### DAY - 19 | Websockets - III
+  - Objectives 
+    - Prevent users from being up send message over certain channels & topic.
+    - Destination level authority implement.
+    - updated JWT request filter to intercept message.
+
+### DAY - 20 | Websockets - IV
+  - Objectives
+    - Register websocket endpoint.
+    - Configures a simple message broker.
+    - Secure message sending and subscription.
+    - Enforce JWT authentication.
+    - Adds destination - level authorization logic.
+
+### DAY - 21 | Websockets - V
+  - Objectives
+    - 

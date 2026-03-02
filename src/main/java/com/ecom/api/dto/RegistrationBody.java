@@ -1,4 +1,4 @@
-package com.ecom.api.model;
+package com.ecom.api.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;

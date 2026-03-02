@@ -1,7 +1,7 @@
 package com.ecom.api.controller.security;
 
 
-import com.ecom.model.LocalUser;
+import com.ecom.entity.User;
 import com.ecom.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -20,7 +20,7 @@ public class JUnitUserDetailsService implements UserDetailsService {
     private UserRepository repository;
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<LocalUser> user = repository.findByUsernameIgnoreCase(username);
+        Optional<User> user = repository.findByUsernameIgnoreCase(username);
         return user.orElse(null);
 
     }

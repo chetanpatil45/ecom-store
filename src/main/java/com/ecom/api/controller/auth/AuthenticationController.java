@@ -1,11 +1,11 @@
 package com.ecom.api.controller.auth;
 
-import com.ecom.api.model.LoginBody;
-import com.ecom.api.model.LoginResponse;
-import com.ecom.api.model.PasswordResetBody;
-import com.ecom.api.model.RegistrationBody;
+import com.ecom.api.dto.LoginBody;
+import com.ecom.api.dto.LoginResponse;
+import com.ecom.api.dto.PasswordResetBody;
+import com.ecom.api.dto.RegistrationBody;
 import com.ecom.exception.*;
-import com.ecom.model.LocalUser;
+import com.ecom.entity.User;
 import com.ecom.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -67,7 +67,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/me")
-    public LocalUser getLoggedInUser(@AuthenticationPrincipal LocalUser user){
+    public User getLoggedInUser(@AuthenticationPrincipal User user){
         return user;
     }
 

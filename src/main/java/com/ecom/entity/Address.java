@@ -1,12 +1,9 @@
-package com.ecom.model;
+package com.ecom.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.ManyToAny;
 
 @Entity
 @Data
@@ -41,5 +38,5 @@ public class Address {
     @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id",nullable = false)
-    private LocalUser user;
+    private User user;
 }

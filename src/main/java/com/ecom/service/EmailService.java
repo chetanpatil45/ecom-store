@@ -1,8 +1,8 @@
 package com.ecom.service;
 
 import com.ecom.exception.EmailFailureException;
-import com.ecom.model.LocalUser;
-import com.ecom.model.VerificationToken;
+import com.ecom.entity.User;
+import com.ecom.entity.VerificationToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -48,7 +48,7 @@ public class EmailService {
 
     }
 
-    public void sendPasswordResetMail(LocalUser user, String token) throws EmailFailureException{
+    public void sendPasswordResetMail(User user, String token) throws EmailFailureException{
         SimpleMailMessage simpleMailMessage = makeMailMessage();
         simpleMailMessage.setTo(user.getEmail());
         simpleMailMessage.setSubject("Your Password Reset Link");

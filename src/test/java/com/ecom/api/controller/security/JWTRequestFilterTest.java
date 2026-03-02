@@ -1,6 +1,6 @@
 package com.ecom.api.controller.security;
 
-import com.ecom.model.LocalUser;
+import com.ecom.entity.User;
 import com.ecom.repository.UserRepository;
 import com.ecom.service.JWTService;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,7 @@ public class JWTRequestFilterTest {
 
     @Test
     public void testUnverifiedUser() throws Exception{
-        LocalUser localUser = userRepository.findByUsernameIgnoreCase("UserB").get();
+        User localUser = userRepository.findByUsernameIgnoreCase("UserB").get();
         String token = jwtService.generateJWT(localUser);
 
         mvc.perform(get(AUTHENTICATED_PATH).header("Authorization","Bearer "+token))
@@ -54,7 +54,7 @@ public class JWTRequestFilterTest {
 
     @Test
     public void testVerifiedUser() throws Exception{
-        LocalUser localUser = userRepository.findByUsernameIgnoreCase("UserA").get();
+        User localUser = userRepository.findByUsernameIgnoreCase("UserA").get();
         String token = jwtService.generateJWT(localUser);
 
         mvc.perform(get(AUTHENTICATED_PATH).header("Authorization","Bearer "+token))

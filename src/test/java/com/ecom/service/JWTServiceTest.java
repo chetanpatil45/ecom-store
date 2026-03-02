@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.MissingClaimException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.ecom.model.LocalUser;
+import com.ecom.entity.User;
 import com.ecom.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
@@ -28,7 +28,7 @@ public class JWTServiceTest {
     @Test
     @Transactional
     public void testVerificationTokenNotUsableForLogin(){
-        LocalUser user = userRepository.findByUsernameIgnoreCase("UserA").get();
+        User user = userRepository.findByUsernameIgnoreCase("UserA").get();
         String token = service.generateVerificationJWT(user);
 
         Assertions.assertNull(service.getUsername(token), "Verification token should not contain username");
@@ -36,7 +36,7 @@ public class JWTServiceTest {
 
     @Test
     public void testAuthTokenReturnsUsername(){
-        LocalUser user = userRepository.findByUsernameIgnoreCase("UserA").get();
+        User user = userRepository.findByUsernameIgnoreCase("UserA").get();
         String token = service.generateJWT(user);
 
         Assertions.assertEquals(user.getUsername(), service.getUsername(token), "Token for auth should contain user's username");
@@ -60,7 +60,7 @@ public class JWTServiceTest {
 
     @Test
     public void testPasswordResetToken(){
-        LocalUser user = userRepository.findByUsernameIgnoreCase("UserA").get();
+        User user = userRepository.findByUsernameIgnoreCase("UserA").get();
         String token = service.generatePasswordResetJWT(user);
 
         Assertions.assertEquals(user.getEmail(),service.getResetPasswordEmail(token),

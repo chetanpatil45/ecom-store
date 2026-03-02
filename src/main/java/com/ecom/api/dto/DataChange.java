@@ -1,4 +1,4 @@
-package com.ecom.api.model;
+package com.ecom.api.dto;
 
 public class DataChange<T> {
     private T data;

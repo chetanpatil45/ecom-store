@@ -1,6 +1,6 @@
 package com.ecom.api.controller.auth;
 
-import com.ecom.api.model.RegistrationBody;
+import com.ecom.api.dto.RegistrationBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icegreen.greenmail.configuration.GreenMailConfiguration;
 import com.icegreen.greenmail.junit5.GreenMailExtension;

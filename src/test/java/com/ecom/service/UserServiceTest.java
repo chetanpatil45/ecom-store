@@ -1,14 +1,14 @@
 package com.ecom.service;
 
-import com.ecom.api.model.LoginBody;
-import com.ecom.api.model.PasswordResetBody;
-import com.ecom.api.model.RegistrationBody;
+import com.ecom.api.dto.LoginBody;
+import com.ecom.api.dto.PasswordResetBody;
+import com.ecom.api.dto.RegistrationBody;
 import com.ecom.exception.EmailFailureException;
 import com.ecom.exception.EmailNotFoundException;
 import com.ecom.exception.UserAlreadyExistsException;
 import com.ecom.exception.UserNotVerifiedException;
-import com.ecom.model.LocalUser;
-import com.ecom.model.VerificationToken;
+import com.ecom.entity.User;
+import com.ecom.entity.VerificationToken;
 import com.ecom.repository.UserRepository;
 import com.ecom.repository.VerificationTokenRepository;
 import com.icegreen.greenmail.configuration.GreenMailConfiguration;
@@ -124,7 +124,7 @@ public class UserServiceTest {
         loginBody.setUsername("UserB");
         loginBody.setPassword("PasswordB123");
 
-        LocalUser localUser = userRepository.findByUsernameIgnoreCase(loginBody.getUsername()).get();
+        User localUser = userRepository.findByUsernameIgnoreCase(loginBody.getUsername()).get();
         System.out.println("Id :: "+localUser.getId());
         System.out.println("Email :: "+localUser.getEmailVerified());
 
@@ -157,7 +157,7 @@ public class UserServiceTest {
     @Test
     @Transactional
     public void testResetPassword(){
-        LocalUser user = userRepository.findByUsernameIgnoreCase("UserA").get();
+        User user = userRepository.findByUsernameIgnoreCase("UserA").get();
         String token = jwtService.generatePasswordResetJWT(user);
 
         PasswordResetBody body = new PasswordResetBody();

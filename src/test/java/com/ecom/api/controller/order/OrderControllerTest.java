@@ -1,6 +1,6 @@
 package com.ecom.api.controller.order;
 
-import com.ecom.model.WebOrder;
+import com.ecom.entity.WebOrder;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;

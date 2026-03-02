@@ -1,6 +1,6 @@
 package com.ecom.api.controller.product;
 
-import com.ecom.model.Product;
+import com.ecom.entity.Product;
 import com.ecom.service.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

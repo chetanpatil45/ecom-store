@@ -1,6 +1,6 @@
 package com.ecom.service;
 
-import com.ecom.model.Product;
+import com.ecom.entity.Product;
 import com.ecom.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 

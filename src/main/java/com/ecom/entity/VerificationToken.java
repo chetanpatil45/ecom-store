@@ -1,4 +1,4 @@
-package com.ecom.model;
+package com.ecom.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class VerificationToken {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private LocalUser user;
+    private User user;
 
 
 

@@ -1,4 +1,4 @@
-package com.ecom.api.model;
+package com.ecom.api.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
