@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class WebOrderQuantities {
+@Table(name = "web_order_quantities")
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -24,5 +25,5 @@ public class WebOrderQuantities {
     @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "order_id",nullable = false)
-    private WebOrder order;
+    private Order order;
 }

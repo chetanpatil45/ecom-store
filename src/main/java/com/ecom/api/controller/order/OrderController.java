@@ -1,7 +1,7 @@
 package com.ecom.api.controller.order;
 
 import com.ecom.entity.User;
-import com.ecom.entity.WebOrder;
+import com.ecom.entity.Order;
 import com.ecom.service.WebOrderService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<WebOrder> getOrders(@AuthenticationPrincipal User user){
+    public List<Order> getOrders(@AuthenticationPrincipal User user){
         return orderService.getOrders(user);
     }
 }

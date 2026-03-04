@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name = "web_order")
-public class WebOrder {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,5 +25,5 @@ public class WebOrder {
     private Address address;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<WebOrderQuantities> quantities = new ArrayList<>();
+    private List<OrderItem> quantities = new ArrayList<>();
 }

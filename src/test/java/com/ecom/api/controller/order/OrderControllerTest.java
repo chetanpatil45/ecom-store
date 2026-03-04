@@ -1,6 +1,6 @@
 package com.ecom.api.controller.order;
 
-import com.ecom.entity.WebOrder;
+import com.ecom.entity.Order;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -45,8 +45,8 @@ public class OrderControllerTest {
         mvc.perform(get("/order")).andExpect(status().is(HttpStatus.OK.value()))
                 .andExpect(result -> {
                     String json = result.getResponse().getContentAsString();
-                    List<WebOrder> orders = new ObjectMapper().readValue(json, new TypeReference<List<WebOrder>>() {});
-                    for (WebOrder order: orders){
+                    List<Order> orders = new ObjectMapper().readValue(json, new TypeReference<List<Order>>() {});
+                    for (Order order: orders){
                         Assertions.assertEquals(username, order.getUser().getUsername(), "Order list should only belonging to the user.");
                     }
                 });

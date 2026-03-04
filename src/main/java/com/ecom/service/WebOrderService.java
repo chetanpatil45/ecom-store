@@ -1,7 +1,7 @@
 package com.ecom.service;
 
 import com.ecom.entity.User;
-import com.ecom.entity.WebOrder;
+import com.ecom.entity.Order;
 import com.ecom.repository.WebOrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class WebOrderService {
         this.repository = repository;
     }
 
-    public List<WebOrder> getOrders(User user){
+    public List<Order> getOrders(User user){
         return repository.findByUser(user);
     }
 }
