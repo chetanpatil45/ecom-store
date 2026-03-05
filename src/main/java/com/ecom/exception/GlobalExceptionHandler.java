@@ -21,15 +21,15 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    @ExceptionHandler(UserNotVerifiedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorResponse handlerUserNotVerifiedException(UserNotVerifiedException ex){
-        return ErrorResponse.builder()
-                .error(ex.getMessage())
-                .status(HttpStatus.FORBIDDEN.value())
-                .timestamp(LocalDateTime.now())
-                .build();
-    }
+//    @ExceptionHandler(UserNotVerifiedException.class)
+//    @ResponseStatus(HttpStatus.FORBIDDEN)
+//    public ErrorResponse handlerUserNotVerifiedException(UserNotVerifiedException ex){
+//        return ErrorResponse.builder()
+//                .error("User email not verified")
+//                .status(HttpStatus.FORBIDDEN.value())
+//                .timestamp(LocalDateTime.now())
+//                .build();
+//    }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

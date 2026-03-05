@@ -79,6 +79,7 @@ public class UserService {
                     throw new UserNotVerifiedException(resend);
                 }
             }
+            return "";
         }
         return null;
     }

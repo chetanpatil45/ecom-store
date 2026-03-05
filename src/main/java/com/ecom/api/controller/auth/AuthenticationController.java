@@ -56,8 +56,17 @@ public class AuthenticationController {
         }
 
         if (jwt == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }else {
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.setFailureReason("User not found");
+            loginResponse.setSuccess(false);
+            return ResponseEntity.badRequest().body(loginResponse);
+        }else if (jwt.isBlank()){
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.setFailureReason("Invalid credentials");
+            loginResponse.setSuccess(false);
+            return ResponseEntity.badRequest().body(loginResponse);
+        }
+        else {
             LoginResponse loginResponse = new LoginResponse();
             loginResponse.setJwt(jwt);
             loginResponse.setSuccess(true);
