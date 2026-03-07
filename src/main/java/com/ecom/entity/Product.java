@@ -27,4 +27,7 @@ public class Product {
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
     private Inventory inventory;
+
+    @OneToOne(mappedBy = "cartItem", cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
+    private CartItem cartItem;
 }
